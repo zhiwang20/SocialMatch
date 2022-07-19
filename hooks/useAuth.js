@@ -14,28 +14,29 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import Config from "../config";
+// import Config from "../config";
 
-WebBrowser.maybeCompleteAuthSession();
+WebBrowser.maybeCompleteAuthSession(); //from the root URL of your app.
 
 const AuthContext = createContext({});
 
 //expoClientId is for web --- Google Cloud->APIs & Services->Credentials --- OAuth 2.0 Client IDs
 //https://docs.expo.dev/guides/authentication/#google
 //https://auth.expo.io/@zhiwang20/SocialMatch
+
 const config = {
-  // expoClientId:
-  //   "417952428997-h8m7njttrmhtu9icecnea2vo9iu7vut3.apps.googleusercontent.com",
-  // webClientId:
-  //   "417952428997-c4p9gr44s4svijpd9p69i4vrog1rieil.apps.googleusercontent.com",
-  // androidClientId:
-  //   "417952428997-5oqbuogqrt65t8n19he5bbis7l6dqd9a.apps.googleusercontent.com",
-  // iosClientId:
-  //   "417952428997-ari65b6g50ftdg2astqtj9r36h3gqrb5.apps.googleusercontent.com",
-  expoClientId: Config.ExpoClientId,
-  webClientId: Config.WebClientId,
-  androidClientId: Config.AndroidClientId,
-  iosClientId: Config.IosClientId,
+  expoClientId:
+    "923049812993-6fo1l28n0p5encer11ao4ntjg2r585hc.apps.googleusercontent.com",
+  webClientId:
+    "923049812993-arnuf4llvfhfbgsv146dfaf1n3o932uh.apps.googleusercontent.com",
+  androidClientId:
+    "923049812993-3vd7rqclmcus2k4tt9co6kds370pfrde.apps.googleusercontent.com",
+  iosClientId:
+    "923049812993-nv7qg6c7d9ac94rn14bv1amdr5ebq50q.apps.googleusercontent.com",
+  // expoClientId: Config.ExpoClientId,
+  // webClientId: Config.WebClientId,
+  // androidClientId: Config.AndroidClientId,
+  // iosClientId: Config.IosClientId,
   scopes: ["profile", "email"],
   permissions: ["public_profile", "email", "gender", "location"],
 };
@@ -51,9 +52,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (response?.type === "success") {
       setLoading(true);
+
       const { id_token, access_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token, access_token);
       signInWithCredential(auth, credential);
+
       setLoading(false);
     }
   }, [response]);
